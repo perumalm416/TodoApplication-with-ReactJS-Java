@@ -1,0 +1,7 @@
+.todo-form label{
+  display: block;
+  width: 30%;
+}
+.todo-form input{
+    width:50%;
+}
