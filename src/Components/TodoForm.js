@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Fragment } from "react";
 import "./TodoForm.css";
+import APIs from "./Server/APIs";
 
 export const TodoForm = () => {
   const [todoInput, setTodoInput] = useState({
     title: "",
     description: "",
-    date: new Date(),
+    date:"",
   });
 
   function todoInputHandler(e) {
@@ -17,14 +18,20 @@ export const TodoForm = () => {
 
   const onTodoSubmit = (event) => {
     event.preventDefault();
-    console.log(todoInput);
+    APIs.postTodoApi(todoInput).then(res=>{
+      console.log(res);
+      if(res.status==200){
+        APIs.getTodoApi().then(res=>console.log(res.data));
+      }
+    });
+
   };
 
   return (
     <Fragment>
       <h2>Todo Form</h2>
       <form onSubmit={onTodoSubmit} className="todo-form">
-        <label htmlFor="title">Title</label>
+        <label id="lable-title" htmlFor="title">Title</label>
         <input
           id="title"
           type="text"
@@ -33,7 +40,7 @@ export const TodoForm = () => {
           placeholder="Enter the title"
           onChange={todoInputHandler}
         />
-        <label htmlFor="description">Description</label>
+        <label id="lable-description" htmlFor="description">Description</label>
         <input
           id="description"
           type="text"
