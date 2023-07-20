@@ -1,21 +1,22 @@
 import { Fragment } from "react";
 import "./TodoList.css";
-import APIs from "./Server/APIs";
-import { formUpdateStatusAction } from "./Store/TodoActionType";
+import { formUpdateStatusAction } from "./TodoActionType";
 import { useDispatch } from "react-redux";
+import { deleteTodoApi } from "../Server/APIs";
 
 export const TodoListItem = (props) => {
   const { info } = props;
   const dispatch=useDispatch();
 
-  const onUpdateTodo = (id) => {
+  const onUpdateTodo = (info) => {
     console.log("update :" + info.id);
-    formUpdateStatusAction(dispatch)
-    // APIs.updateTodoApi().then(res=>console.log(res.data)).catch(e=>console.log(e.message));
+    formUpdateStatusAction(dispatch,info)
+    
   };
   const onDeleteTodo = () => {
     console.log("Delete " + info.id);
-    APIs.deleteTodoApi(info.id).then((res) => console.log(res)).catch((e)=>console.log(e.message))
+    
+    deleteTodoApi(info.id).then((res) => console.log(res)).catch((e)=>console.log(e.message))
   };
 
   return (
@@ -26,7 +27,7 @@ export const TodoListItem = (props) => {
         <td>{info.description}</td>
         <td>{info.date}</td>
         <td>
-          <button onClick={() => onUpdateTodo(info.id)}>Update</button>
+          <button onClick={() => onUpdateTodo(info)}>Update</button>
         </td>
         <td>
           <button onClick={onDeleteTodo}>Delete</button>

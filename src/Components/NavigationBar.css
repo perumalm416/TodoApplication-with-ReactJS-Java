@@ -1,0 +1,19 @@
+.nav-container {
+  display: flex;
+  justify-content: end;
+  list-style: none;
+  background-color: rgb(3, 3, 65);
+}
+.nav-container li {
+  padding: 5px 10px;
+}
+
+.nav-container .isActive, .nav-container .isNotActive:hover {
+  color: white;
+  font-weight: bold;
+}
+.nav-container .isNotActive {
+  text-decoration: none;
+  color: rgba(255, 239, 239, 0.836);
+}
+
