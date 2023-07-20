@@ -1,15 +1,15 @@
+import "./App.css";
+import { Fragment } from "react";
+import { TodoRouter } from "./Components/Router";
+import { NavigationBar } from "./Components/NavigationBar";
 
-import './App.css';
-import { Fragment } from 'react';
-import { Login } from "./Components/Login";
-import { TodoForm } from "./Components/TodoForm";
-import { TodoList } from "./Components/TodoList";
 function App() {
-  return  <Fragment>
-  {/* <Login /> */}
-  <TodoForm/>
-  <TodoList/>
-</Fragment>
+  return (
+    <Fragment>
+      <NavigationBar />
+      <TodoRouter />
+    </Fragment>
+  );
 }
 
 export default App;

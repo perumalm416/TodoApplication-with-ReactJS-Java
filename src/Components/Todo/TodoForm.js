@@ -1,37 +1,48 @@
 import { useState } from "react";
 import { Fragment } from "react";
 import "./TodoForm.css";
-import APIs from "./Server/APIs";
+import { useSelector } from "react-redux";
+import { postTodoApi, updateTodoApi } from "../Server/APIs";
 
 export const TodoForm = () => {
   const [todoInput, setTodoInput] = useState({
     title: "",
     description: "",
-    date:"",
+    date: "",
   });
+  const todoStore = useSelector((state) => state.todo);
 
   function todoInputHandler(e) {
     setTodoInput(function (prevState) {
       return { ...prevState, [e.target.name]: e.target.value };
     });
   }
-
+  console.log(todoStore);
   const onTodoSubmit = (event) => {
     event.preventDefault();
-    APIs.postTodoApi(todoInput).then(res=>{
-      console.log(res);
-      if(res.status==200){
-        APIs.getTodoApi().then(res=>console.log(res.data));
-      }
-    });
-
+    if (todoStore.updateTodoInfo) {
+      const updatedTodo = {
+        ...todoInput,
+        id: todoStore.updateTodoInfo.id,
+      };
+      console.log("udpate form data ", updatedTodo);
+      updateTodoApi(updatedTodo)       // UPDATE METHOD
+        .then((res) => console.log(res.data))
+        .catch((e) => console.log(e.message));
+    } else {
+      postTodoApi(todoInput)           // POST METHOD
+        .then((res) => console.log(res))
+        .catch((e) => console.error(e.message));
+    }
   };
 
   return (
     <Fragment>
       <h2>Todo Form</h2>
       <form onSubmit={onTodoSubmit} className="todo-form">
-        <label id="lable-title" htmlFor="title">Title</label>
+        <label id="lable-title" htmlFor="title">
+          Title
+        </label>
         <input
           id="title"
           type="text"
@@ -40,7 +51,9 @@ export const TodoForm = () => {
           placeholder="Enter the title"
           onChange={todoInputHandler}
         />
-        <label id="lable-description" htmlFor="description">Description</label>
+        <label id="lable-description" htmlFor="description">
+          Description
+        </label>
         <input
           id="description"
           type="text"
@@ -57,7 +70,9 @@ export const TodoForm = () => {
           value={todoInput.date}
           onChange={todoInputHandler}
         />
-        <button type="submit">Add Task</button>
+        <button type="submit">
+          {todoStore.updateTodoInfo ? "Update Task" : "Add Task"}
+        </button>
       </form>
     </Fragment>
   );
