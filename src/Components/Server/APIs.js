@@ -1,7 +1,14 @@
 import axios from "axios";
 
 export const getTodoApi = () => {
-  return axios.get("http://localhost:8080/todo");
+
+  return axios.get("http://localhost:8080/todo"
+  // ,{
+  //   headers:{
+  //     Authorization:encodedAuth,
+  //   }
+  // }
+  );
 };
 export const postTodoApi = (todoinfo) => {
   return axios.post("http://localhost:8080/todo", todoinfo);
