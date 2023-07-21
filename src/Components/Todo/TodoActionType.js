@@ -1,3 +1,6 @@
-export const formUpdateStatusAction = (dispatch,todoinfo) => {
-  dispatch({ type: "tODO_FORM_UPDATE",payload:todoinfo });
+export const todoUpdateStartAction = (dispatch, todoinfo) => {
+  dispatch({ type: "tODO_UPDATE_START", payload: todoinfo });
+};
+export const todoUpdateEndAction = (dispatch) => {
+  dispatch({ type: "TODO_UPDATE_DONE" });
 };

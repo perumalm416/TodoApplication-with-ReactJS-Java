@@ -14,8 +14,13 @@ export const TodoList = () => {
         return a.id - b.id;
       });
       setTodoInfo(res.data);
-    });
+    }).catch(e=>{
+      if(e.message){
+        console.log(e.message);
+      }
+    })
   }, []);
+
   return (
     <Fragment>
       <h2>Todo Application Schedule</h2>
@@ -36,6 +41,7 @@ export const TodoList = () => {
             ))}
         </tbody>
       </table>
+    
     </Fragment>
   );
 };

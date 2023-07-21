@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { Fragment } from "react";
 import "./TodoForm.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { postTodoApi, updateTodoApi } from "../Server/APIs";
+import { useNavigate } from "react-router";
+import { todoUpdateEndAction } from "./TodoActionType";
 
 export const TodoForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [todoInput, setTodoInput] = useState({
     title: "",
     description: "",
@@ -17,20 +21,25 @@ export const TodoForm = () => {
       return { ...prevState, [e.target.name]: e.target.value };
     });
   }
-  console.log(todoStore);
+
   const onTodoSubmit = (event) => {
     event.preventDefault();
+
     if (todoStore.updateTodoInfo) {
       const updatedTodo = {
         ...todoInput,
         id: todoStore.updateTodoInfo.id,
       };
-      console.log("udpate form data ", updatedTodo);
-      updateTodoApi(updatedTodo)       // UPDATE METHOD
-        .then((res) => console.log(res.data))
+      updateTodoApi(updatedTodo) // UPDATE METHOD
+        .then((res) => {
+          console.log(res.data);
+        })
         .catch((e) => console.log(e.message));
+
+      todoUpdateEndAction(dispatch);
+      navigate("/todolist");
     } else {
-      postTodoApi(todoInput)           // POST METHOD
+      postTodoApi(todoInput) // POST METHOD
         .then((res) => console.log(res))
         .catch((e) => console.error(e.message));
     }

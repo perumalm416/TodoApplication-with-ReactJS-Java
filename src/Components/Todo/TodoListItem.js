@@ -1,22 +1,26 @@
 import { Fragment } from "react";
 import "./TodoList.css";
-import { formUpdateStatusAction } from "./TodoActionType";
+import { todoUpdateStartAction } from "./TodoActionType";
 import { useDispatch } from "react-redux";
 import { deleteTodoApi } from "../Server/APIs";
+import { useNavigate } from "react-router";
 
 export const TodoListItem = (props) => {
   const { info } = props;
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onUpdateTodo = (info) => {
     console.log("update :" + info.id);
-    formUpdateStatusAction(dispatch,info)
-    
+    todoUpdateStartAction(dispatch, info);
+    navigate("/todoform");
   };
   const onDeleteTodo = () => {
     console.log("Delete " + info.id);
-    
-    deleteTodoApi(info.id).then((res) => console.log(res)).catch((e)=>console.log(e.message))
+
+    deleteTodoApi(info.id)
+      .then((res) => console.log(res))
+      .catch((e) => console.log(e.message));
   };
 
   return (
